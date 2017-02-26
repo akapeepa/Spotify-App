@@ -7,31 +7,30 @@
   <!-- css -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="styles/css/style.css">
-  <!--  -->
 
 </head>
 
 <body>
   <div ng-app = "app" ng-cloak>
-    <div class="container" ng-controller="homeController">
-
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">@</span>
-        <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+    <div class="container">
+      <div ui-view>
       </div>
-
-
     </div>
   </div>
 
 
-  <!-- js -->
+  <!-- Bower JS -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" ></script>
   <script src="bower_components/angular/angular.min.js" ></script>
+  <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+  <!-- My JS -->
+  <script src="index.js" ></script>
   <script src="js/ctrl.js" ></script>
   <script src="js/srvc.js" ></script>
-  <!--  -->
+  <script src="js/route.js" ></script>
 
 </body>
 </html>
