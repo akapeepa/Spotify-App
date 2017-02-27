@@ -1,10 +1,14 @@
 //Service
-app.service('spotifySearch',function($http){
+app.service('spotifyService',function($resource){
   var vm = this;
 
-  vm.getData = function(q,type){
-    return $http.get('https://api.spotify.com/v1/search', {
-      headers: {'Authorization': 'Bearer BQAoU4-20JRKFYl1RluHYohUaOVj8GR2Q7F6h1Efkif9ruVG2LcW00OLG-PjmVDAQhJSFnWDUbAFcJLSk28NR5x6xwB3gqcd14h50qGm4UZB_g7Obg3jgU83J-VmCBaryxnTQLvFFKFGairk-p80Jr_uC4PhRL1wXi_vEZvLZbBL5S7B45tjpZL23tgoPzgA-uy-qu-pkD1y2F0moNkALpUWk3qEF_0eGTFjYzxxDFbCpDwcUYE_mDU4C9Kjil2WhR3y5fIuTg9IBuCqq_YYCW0RRvgWfDz6M9L3jDCd1Ulqh-GYNQ' }
+  vm.getResults = function(query, type){
+    var Results = $resource('https://api.spotify.com/v1/search', {q:query, type:type}, {
+      headers: { 'Authorization': 'Bearer BQDh-JqERc8O_gtxAOgAONxAp1e2-hpvQxon0QTGYa4GpPxme4U4Q4DPVGsRhsVqMtjXVFhBqgwkqfiHuIyFExy2LWXJ7JzYZLEJwRSLcJqe0pXqHiJNxCpImkRZHCp4mT7FZJX0xr3DKR1GI506CGv83vreqp5ksyx3ql699qUYwZFDCbah43xFt7hgndGxdhqfM7pdFu6Z8wue4PxarzZgIKMOg-ppevYdi1mrC8PhZvBKwSKwTXpeEEvJ6_fscym_cclLMc2gcau5RKt6B4nvfwluSYIS6P8_yyATy9EpuqsMrw' }
     });
+
+    var results = Results.get();
+    return results;
   };
+
 });
