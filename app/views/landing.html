@@ -1,2 +1,38 @@
+<div class="container">
 
-<!-- <iframe src="https://embed.spotify.com/follow/1/?uri=spotify:artist:1vCWHaC5f2uS3yhpwWbIA6&size=detail&theme=light" width="300" height="56" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowtransparency="true"></iframe> -->
+  <form>
+    <div class="form-group">
+      <!-- <label for="exampleInputEmail1">Email address</label> -->
+      <input type="text" class="form-control" id="searchQuery" placeholder="Search for Songs, Artist or Album" ng-model="landing.searchQuery" required>
+    </div>
+    <!-- <div class="checkbox">
+    <label>
+    <input type="checkbox"> Check me out
+  </label>
+</div> -->
+
+<div class="row text-center">
+  <label class="radio-inline custom-radio-btn">
+    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">Songs
+  </label>
+  <label class="radio-inline custom-radio-btn">
+    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">Artist
+  </label>
+  <label class="radio-inline custom-radio-btn">
+    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">Album
+  </label>
+</div>
+
+<div class="row text-center">
+  <button type="submit" class="btn btn-default" id="searchButton">Search</button>
+</div>
+
+<hr>
+
+<div class="container text-center" id="spotifyLogo">
+  <div>Powered By</div>
+  <img src="images/spotify.png" alt="Spotify" class="img-responsive center-block">
+</div>
+</form>
+
+</div>
