@@ -21,4 +21,14 @@ app.controller('landingController',['$scope', '$resource', 'spotifyService', fun
   };
 
 
+  $scope.propertyName = '';
+  $scope.reverse = true;
+  $scope.data = $scope.data;
+
+  $scope.sortBy = function(propertyName) {
+    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+    $scope.propertyName = propertyName;
+  };
+
+
 }]);
