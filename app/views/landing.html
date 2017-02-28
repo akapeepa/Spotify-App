@@ -1,63 +1,83 @@
-<div class="container">
-  <form>
-    <div class="row form-group">
-      <input type="text" class="form-control col-centered" id="searchQuery" placeholder="Search for Songs, Artist or Album" ng-model="landing.searchQuery" required>
-    </div>
+<section id="searchForm">
 
-    <div class="row text-center">
-      <label class="radio-inline custom-radio-btn">
-        <input type="radio" name="searchType" ng-model="landing.searchType" id="inlineRadio1" value="track">Song
-      </label>
-      <label class="radio-inline custom-radio-btn">
-        <input type="radio" name="searchType" ng-model="landing.searchType" id="inlineRadio2" value="artist">Artist
-      </label>
-      <label class="radio-inline custom-radio-btn">
-        <input type="radio" name="searchType" ng-model="landing.searchType" id="inlineRadio3" value="album">Album
-      </label>
-    </div>
+  <!-- Search -->
+  <div class="container">
+    <form>
+      <div class="row form-group">
+        <input type="text" class="form-control col-centered" id="searchQuery" placeholder="Search for Songs, Artist or Album" ng-model="landing.searchQuery" required>
+      </div>
 
-    <div class="row text-center">
-      <button type="submit" class="btn btn-default" ng-click="landing.search()" id="searchButton">Search</button>
-    </div>
-  </form>
+      <div class="row text-center" id="custom-radio-buttons">
+        <label class="custom-btn">
+          <input type="radio" name="toggle" ng-model="landing.searchType" value="track">
+          <span>Song</span>
+        </label>
+        <label class="custom-btn">
+          <input type="radio" name="toggle" ng-model="landing.searchType" value="artist">
+          <span>Artist</span>
+        </label>
+        <label class="custom-btn">
+          <input type="radio" name="toggle" ng-model="landing.searchType" value="album">
+          <span>Album</span>
+        </label>
+      </div>
 
-  <div class="container text-center" id="spotifyLogo">
-    <br>
-    <div>Powered By</div>
-    <img src="images/spotify.png" alt="Spotify" class="img-responsive center-block">
+      <div class="row text-center">
+        <button type="submit" class="btn btn-default" ng-click="landing.search()" id="searchButton">Search</button>
+      </div>
+    </form>
+
+    <div class="container text-center" id="spotifyLogo">
+      <br>
+      <br>
+      <div>Powered By</div>
+      <img src="images/spotify.png" alt="Spotify" class="img-responsive center-block">
+    </div>
   </div>
+</section>
 
-  <div class="col-xs-12 col-md-12" ng-cloak>
-    <table class="table table-striped table-hover ">
+<section id="searchResults" ng-if="landing.items">
+  <div class="container" ng-cloak>
+    <table class="table table-hover">
       <thead>
         <tr>
-          <th>
-            <a href="" ng-click="orderByField='Name'; reverseSort = !reverseSort">Name</button>
-              <span ng-show="orderByField == 'Name'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          <th class="col-md-6">
+            <a href="" ng-click="orderByField='Name'; reverseSort = !reverseSort">
+              Name
+              <span ng-show="orderByField == 'Name'">
+                <span ng-show="!reverseSort">&#x2191;</span>
+                <span ng-show="reverseSort">&#x2193;</span>
+              </span>
             </a>
           </th>
 
-          <th>
-            <a href=""ng-click="orderByField='Popularity'; reverseSort = !reverseSort">Popularity</button>
-              <span ng-show="orderByField == 'Popularity'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          <th class="col-md-offset-2 col-md-2">
+            <a href=""ng-click="orderByField='Popularity'; reverseSort = !reverseSort">
+              Popularity
+              <span ng-show="orderByField == 'Popularity'">
+                <span ng-show="!reverseSort">&#x2191;</span>
+                <span ng-show="reverseSort">&#x2193;</span>
+              </span>
             </a>
           </th>
         </tr>
       </thead>
+
       <tbody>
         <tr dir-paginate="i in landing.items | orderBy:orderByField:reverseSort | itemsPerPage:10" >
-          <td >
+          <td class="col-md-6">
             <h5>
               <strong>{{i.name}}</strong>
             </h5>
             <p class="text-muted">by {{i.artists["0"].name}}</p>
           </td>
-          <td>
-            <h5>
-              <strong>{{i.popularity}}</strong>
-            </h5>
+          <td class="col-md-offset-2 col-md-2">
+            <progress max="100" value="{{i.popularity}}" class="html5">
+              <div class="progress-bar">
+                <span style="width: {{i.popularity}}%">{{i.popularity}}%</span>
+              </div>
+            </progress>
           </td>
-
         </tr>
       </tbody>
     </table>
@@ -65,12 +85,7 @@
       <dir-pagination-controls
       max-size=""
       direction-links="true"
-      boundary-links="true" >
-    </dir-pagination-controls>
+      boundary-links="true"></dir-pagination-controls>
+    </div>
   </div>
-
-</div>
-
-<hr>
-
-</div>
+</section>

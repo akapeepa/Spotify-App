@@ -10,11 +10,13 @@ app.controller('landingController',['$scope', '$resource', 'spotifyService', fun
   vm.search = function() {
     var results = spotifyService.getResults(vm.searchQuery, vm.searchType , vm.limit);
     results.$promise.then(function(data) {
-      console.log(data);
+      // console.log(data);
       vm.data = data.tracks || data.artists || data.albums;
+      // vm.data = vm.data.items;
+      console.log(vm.data);
       vm.items= vm.data.items;
-      vm.name = vm.items["0"].artists["0"]
-      console.log(vm.name.name);
+      vm.name = vm.items["0"].artists["0"] || vm.items.name;
+      // console.log(vm.name.name);
 
       console.log(vm.items);
     });
