@@ -5,9 +5,10 @@ app.controller('landingController',['$scope', '$resource', 'spotifyService', fun
 
   vm.searchQuery = '';
   vm.searchType = 'track';
+  vm.limit = 50;
 
   vm.search = function() {
-    var results = spotifyService.getResults(vm.searchQuery, vm.searchType);
+    var results = spotifyService.getResults(vm.searchQuery, vm.searchType , vm.limit);
     results.$promise.then(function(data) {
       console.log(data);
       vm.data = data.tracks || data.artists || data.albums;
@@ -21,14 +22,17 @@ app.controller('landingController',['$scope', '$resource', 'spotifyService', fun
   };
 
 
-  $scope.propertyName = '';
-  $scope.reverse = true;
-  $scope.data = $scope.data;
+  // $scope.propertyName = '';
+  // $scope.reverse = true;
+  // $scope.items = $scope.items;
+  //
+  // $scope.sortBy = function(propertyName) {
+  //   $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+  //   $scope.propertyName = propertyName;
+  // };
 
-  $scope.sortBy = function(propertyName) {
-    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-    $scope.propertyName = propertyName;
-  };
+  $scope.orderByField = 'Name';
+  $scope.reverseSort = false;
 
 
 }]);
