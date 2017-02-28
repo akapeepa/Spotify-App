@@ -1,7 +1,7 @@
 <div class="container">
   <form>
-    <div class="form-group">
-      <input type="text" class="form-control" id="searchQuery" placeholder="Search for Songs, Artist or Album" ng-model="landing.searchQuery" required>
+    <div class="row form-group">
+      <input type="text" class="form-control col-centered" id="searchQuery" placeholder="Search for Songs, Artist or Album" ng-model="landing.searchQuery" required>
     </div>
 
     <div class="row text-center">
@@ -61,12 +61,14 @@
 
         </tr>
       </tbody>
+    </table>
+    <div class="text-center">
       <dir-pagination-controls
       max-size=""
       direction-links="true"
       boundary-links="true" >
     </dir-pagination-controls>
-    </table>
+  </div>
 
 </div>
 
