@@ -1,5 +1,5 @@
 //Controller
-app.controller('landingController',['$scope', '$resource', 'spotifyService', function($scope, $resource, spotifyService){
+app.controller('landingController',['$scope', '$window' ,  '$document', '$resource',  'spotifyService', function($scope, $window ,$document,  $resource,  spotifyService){
 
   var vm = this;
 
@@ -10,31 +10,34 @@ app.controller('landingController',['$scope', '$resource', 'spotifyService', fun
   vm.search = function() {
     var results = spotifyService.getResults(vm.searchQuery, vm.searchType , vm.limit);
     results.$promise.then(function(data) {
-      // console.log(data);
       vm.data = data.tracks || data.artists || data.albums;
-      // vm.data = vm.data.items;
-      console.log(vm.data);
       vm.items= vm.data.items;
+      console.log(vm.data);
+      function compare(a,b) {
+        if (a.popularity < b.popularity)
+        return -1;
+        if (a.popularity > b.popularity)
+        return 1;
+        return 0;
+      }
+      vm.items.sort(compare);
       vm.name = vm.items["0"].artists["0"] || vm.items.name;
-      // console.log(vm.name.name);
-
-      console.log(vm.items);
+      gotoResults();
     });
-
   };
-
-
-  // $scope.propertyName = '';
-  // $scope.reverse = true;
-  // $scope.items = $scope.items;
-  //
-  // $scope.sortBy = function(propertyName) {
-  //   $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-  //   $scope.propertyName = propertyName;
-  // };
 
   $scope.orderByField = 'Name';
   $scope.reverseSort = false;
 
+  vm.isMobile = false;
+  var screenWidth = $window.innerWidth;
+  if (screenWidth < 768){
+    vm.isMobile = true;
+  }
+
+  // Smooth Scroll To Results
+  function gotoResults() {
+    $document.scrollTo( 0, 700, [1000] );
+  };
 
 }]);

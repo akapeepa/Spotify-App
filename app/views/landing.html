@@ -1,9 +1,20 @@
 <section id="searchForm">
 
+  <!-- Background -->
+  <div class="video-background">
+    <div class="video-cover"></div>
+    <div class="video-foreground">
+      <!-- <div ng-if="!landing.isMobile" id="muteYouTubeVideoPlayer"></div> -->
+      <!-- <img ng-if="landing.isMobile" src="images/1.jpg" alt=""> -->
+      <img src="images/2.jpg" alt="">
+    </div>
+  </div>
+
   <!-- Search -->
   <div class="container">
     <form>
       <div class="row form-group">
+        <span id="search-icon"><i class="fa fa-search fa-2x" aria-hidden="true"></i></span>
         <input type="text" class="form-control col-centered" id="searchQuery" placeholder="Search for Songs, Artist or Album" ng-model="landing.searchQuery" required>
       </div>
 
@@ -36,56 +47,102 @@
   </div>
 </section>
 
-<section id="searchResults" ng-if="landing.items">
-  <div class="container" ng-cloak>
-    <table class="table table-hover">
+<section id="searchResults" ng-show="landing.items">
+
+  <div id="song-grid">
+    <div class="container" ng-cloak>
+      <table class="table table-inverse">
+        <thead>
+          <tr>
+            <th class="col-md-6">
+              <a href="" ng-click="orderByField='Name'; reverseSort = !reverseSort">
+                Name
+                <span ng-show="orderByField == 'Name'">
+                  <span ng-show="!reverseSort">&#x2191;</span>
+                  <span ng-show="reverseSort">&#x2193;</span>
+                </span>
+              </a>
+            </th>
+            <th class="col-md-offset-2 col-md-2">
+              <a href=""ng-click="orderByField='Popularity'; reverseSort = !reverseSort">
+                Popularity
+                <span ng-show="orderByField == 'Popularity'">
+                  <span ng-show="!reverseSort">&#x2191;</span>
+                  <span ng-show="reverseSort">&#x2193;</span>
+                </span>
+              </a>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr dir-paginate="i in landing.items | orderBy:orderByField:reverseSort | itemsPerPage:10" >
+            <td class="col-md-6">
+              <h5>
+                <strong>{{i.name}}</strong>
+              </h5>
+              <p class="text-muted">by {{i.artists["0"].name}}</p>
+            </td>
+            <td class="col-md-offset-2 col-md-2">
+              <progress max="100" value="{{i.popularity}}" class="html5">
+                <div class="progress-bar">
+                  <span style="width: {{i.popularity}}%">{{i.popularity}}%</span>
+                </div>
+              </progress>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-center">
+        <dir-pagination-controls
+        max-size=""
+        direction-links="true"
+        boundary-links="true"></dir-pagination-controls>
+      </div>
+    </div>
+  </div>
+
+<!-- <div id="artist-grid" ng-cloak>
+  <div class="container">
+    <table class="table">
       <thead>
         <tr>
-          <th class="col-md-6">
-            <a href="" ng-click="orderByField='Name'; reverseSort = !reverseSort">
-              Name
-              <span ng-show="orderByField == 'Name'">
-                <span ng-show="!reverseSort">&#x2191;</span>
-                <span ng-show="reverseSort">&#x2193;</span>
-              </span>
-            </a>
-          </th>
-
-          <th class="col-md-offset-2 col-md-2">
-            <a href=""ng-click="orderByField='Popularity'; reverseSort = !reverseSort">
-              Popularity
-              <span ng-show="orderByField == 'Popularity'">
-                <span ng-show="!reverseSort">&#x2191;</span>
-                <span ng-show="reverseSort">&#x2193;</span>
-              </span>
-            </a>
-          </th>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
         </tr>
       </thead>
-
       <tbody>
-        <tr dir-paginate="i in landing.items | orderBy:orderByField:reverseSort | itemsPerPage:10" >
-          <td class="col-md-6">
-            <h5>
-              <strong>{{i.name}}</strong>
-            </h5>
-            <p class="text-muted">by {{i.artists["0"].name}}</p>
-          </td>
-          <td class="col-md-offset-2 col-md-2">
-            <progress max="100" value="{{i.popularity}}" class="html5">
-              <div class="progress-bar">
-                <span style="width: {{i.popularity}}%">{{i.popularity}}%</span>
-              </div>
-            </progress>
-          </td>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@TwBootstrap</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">4</th>
+          <td colspan="2">Larry the Bird</td>
+          <td>@twitter</td>
         </tr>
       </tbody>
     </table>
-    <div class="text-center">
-      <dir-pagination-controls
-      max-size=""
-      direction-links="true"
-      boundary-links="true"></dir-pagination-controls>
-    </div>
   </div>
+</div>
+
+<div id="album-grid">
+
+</div> -->
 </section>
