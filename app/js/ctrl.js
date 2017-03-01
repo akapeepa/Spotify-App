@@ -40,4 +40,14 @@ app.controller('landingController',['$scope', '$window' ,  '$document', '$resour
     $document.scrollTo( 0, 700, [1000] );
   };
 
+  function enter(){
+    element.bind("keydown keypress", function (event) {
+      if(event.which === 13) {
+        vm.search();
+        event.preventDefault();
+      }
+    });
+  }
+
+
 }]);
