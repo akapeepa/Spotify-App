@@ -8,5 +8,11 @@ app.config(function($stateProvider, $urlRouterProvider){
     controller: 'landingController',
     controllerAs: 'landing'
   })
-  
+  // .state('temp', {
+  //   url: '/temp',
+  //   templateUrl: "views/temp.html",
+  //   controller: 'tempController'
+  // })
+  ;
+
 });

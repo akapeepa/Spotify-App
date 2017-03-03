@@ -6,8 +6,6 @@ app.controller('landingController',['$scope', '$window' ,  '$document', '$resour
   vm.searchQuery = '';
   vm.searchType = 'track';
 
-
-  // millisToMinutesAndSeconds
   function durationConversion(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
@@ -17,7 +15,6 @@ app.controller('landingController',['$scope', '$window' ,  '$document', '$resour
   // Audio Preview
   vm.play = function(song, index) {
     vm.isPlaying = index;
-    console.log(vm.isPlaying);
     var flag = 1;//pause previous
     if(vm.audio_curr != null){
       vm.pause(index,flag);
@@ -38,30 +35,69 @@ app.controller('landingController',['$scope', '$window' ,  '$document', '$resour
   }
   // vm.isPlaying[index] = false;
 
-  vm.search = function() {
+  vm.search = function(type) {
     var results = spotifyService.getResults(vm.searchQuery, vm.searchType , 50);
     results.$promise.then(function(data) {
       vm.data = (data.tracks || data.artists || data.albums).items;
-      console.log(vm.data);
 
-      vm.songs = [];
-      var i = 0;
-      angular.forEach(vm.data, function(value, key){
-        // console.log(value);
-        var obj = {};
-        obj.index = 'song'+i ; i++;
-        obj.track = value.name;
-        // console.log(value.name);
-        obj.preview = value.preview_url;
-        // obj.duration = durationConversion(value.duration_ms);
-        obj.popularity = value.popularity;
-        obj.album = value.album.name;
-        obj.artist = value.album.artists[0].name;
-        obj.logo = value.album.images[2].url;
-        vm.songs.push(obj);
-      });
+      if(type == 'track') {
 
-      console.log(vm.songs);
+        vm.songs = [];
+        var i = 0;
+        angular.forEach(vm.data, function(value, key){
+          var obj = {};
+
+          obj.index = 'song'+i ; i++;
+          obj.track = value.name;
+          obj.preview = value.preview_url;
+          obj.duration = durationConversion(value.duration_ms);
+          obj.popularity = value.popularity;
+          obj.album = value.album.name;
+          obj.artist = value.album.artists[0].name;
+          obj.logo = value.album.images[2].url;
+
+          vm.songs.push(obj);
+        });
+      }
+      else if(type == 'artist') {
+
+        vm.artists = [];
+        var i = 0;
+        angular.forEach(vm.data, function(value, key){
+          var obj = {};
+
+          obj.index = 'artist'+i ; i++;
+          obj.popularity = value.popularity;
+          obj.followers = value.followers.total;
+          obj.genres = value.genres;
+          obj.artist = value.name;
+
+          var image = value.images[1];
+          if(image) {
+            obj.logo = image.url;
+          } else {
+            obj.logo = "http://media.tumblr.com/tumblr_mf3r1eERKE1qgcb9y.jpg"
+          }
+
+          vm.artists.push(obj);
+        });
+      }
+      else if(type == 'album') {
+
+        vm.albums = [];
+        var i = 0;
+        angular.forEach(vm.data, function(value, key){
+          var obj = {};
+
+          obj.index = 'song'+i ; i++;
+          obj.artist = value.artists;
+          obj.type = value.album_type;
+          obj.logo = value.images[1].url;
+          obj.name = value.name;
+
+          vm.albums.push(obj);
+        });
+      }
 
       gotoResults();
     });
@@ -80,6 +116,6 @@ app.controller('landingController',['$scope', '$window' ,  '$document', '$resour
 
   vm.sortType     = 'popularity'; // set the default sort type
   vm.sortReverse  = true;  // set the default sort order
-  vm.searchSong   = '';     // set the default search/filter term
+  vm.filter   = '';     // set the default search/filter term
 
 }]);

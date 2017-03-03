@@ -4,9 +4,8 @@
   <div class="video-background">
     <div class="video-cover"></div>
     <div class="video-foreground">
-      <!-- <div ng-if="!landing.isMobile" id="muteYouTubeVideoPlayer"></div> -->
-      <!-- <img ng-if="landing.isMobile" src="images/1.jpg" alt=""> -->
-      <img src="images/2.jpg" alt="">
+      <div ng-if="!landing.isMobile" id="muteYouTubeVideoPlayer"></div>
+      <img ng-if="landing.isMobile" src="images/1.jpg" alt="">
     </div>
   </div>
 
@@ -34,7 +33,7 @@
       </div>
 
       <div class="row text-center">
-        <button type="submit" class="btn btn-default" ng-click="landing.search()" id="searchButton">Search</button>
+        <button type="submit" class="btn btn-default" ng-click="landing.search(landing.searchType)" id="searchButton">Search</button>
       </div>
     </form>
 
@@ -47,9 +46,18 @@
   </div>
 </section>
 
-<section id="searchResults" ng-show="landing.data">
+<section id="searchResults" class="container-fluid" ng-show="landing.data">
 
-  <div id="song-grid">
+  <!-- Search Filter -->
+  <div class="row form-group">
+    <div class="col-md-offset-9 col-md-3">
+      <span id="filter-icon"><i class="fa fa-search fa-1x" aria-hidden="true"></i></span>
+      <input type="text" class="form-control" id="filterSong" placeholder="Filter" ng-model="landing.filter">
+    </div>
+  </div>
+
+  <!-- SONG -->
+  <div id="song-grid" ng-show="landing.searchType == 'track'">
     <table class="table">
       <thead>
         <tr class="row no-overflow">
@@ -57,44 +65,43 @@
           <td class="col-md-3">
             <a href="" ng-click="landing.sortType = 'track'; landing.sortReverse = !landing.sortReverse">
               Track
-              <span ng-show="landing.sortType == 'track' && !landing.sortReverse" class="fa fa-caret-down"></span>
-              <span ng-show="landing.sortType == 'track' && landing.sortReverse" class="fa fa-caret-up"></span>
+              <span ng-show="landing.sortType == 'track' && !landing.sortReverse" class="smooth fa fa-arrow-down"></span>
+              <span ng-show="landing.sortType == 'track' && landing.sortReverse" class="smooth fa fa-arrow-up"></span>
             </a>
           </td>
           <td class="col-md-2">
             <a href="" ng-click="landing.sortType = 'artist'; landing.sortReverse = !landing.sortReverse">
               Artist
-              <span ng-show="landing.sortType == 'artist' && !landing.sortReverse" class="fa fa-caret-down"></span>
-              <span ng-show="landing.sortType == 'artist' && landing.sortReverse" class="fa fa-caret-up"></span>
+              <span ng-show="landing.sortType == 'artist' && !landing.sortReverse" class="smooth fa fa-arrow-down"></span>
+              <span ng-show="landing.sortType == 'artist' && landing.sortReverse" class="smooth fa fa-arrow-up"></span>
             </a>
           </td>
           <td class="col-md-3">
             <a href="" ng-click="landing.sortType = 'album'; landing.sortReverse = !landing.sortReverse">
               Album
-              <span ng-show="landing.sortType == 'album' && !landing.sortReverse" class="fa fa-caret-down"></span>
-              <span ng-show="landing.sortType == 'album' && landing.sortReverse" class="fa fa-caret-up"></span>
+              <span ng-show="landing.sortType == 'album' && !landing.sortReverse" class="smooth fa fa-arrow-down"></span>
+              <span ng-show="landing.sortType == 'album' && landing.sortReverse" class="smooth fa fa-arrow-up"></span>
             </a>
           </td>
           <td class="col-md-1 text-center">
             <a href="" ng-click="landing.sortType = 'duration'; landing.sortReverse = !landing.sortReverse">
               Time
-              <span ng-show="landing.sortType == 'duration' && !landing.sortReverse" class="fa fa-caret-down"></span>
-              <span ng-show="landing.sortType == 'duration' && landing.sortReverse" class="fa fa-caret-up"></span>
+              <span ng-show="landing.sortType == 'duration' && !landing.sortReverse" class="smooth fa fa-arrow-down"></span>
+              <span ng-show="landing.sortType == 'duration' && landing.sortReverse" class="smooth fa fa-arrow-up"></span>
             </a>
           </td>
           <td class="col-md-2 text-center">
             <a href="" ng-click="landing.sortType = 'popularity'; landing.sortReverse = !landing.sortReverse">
-              <!-- <img src="images/Gas.png">&nbsp; -->
               Popularity
-              <span ng-show="landing.sortType == 'popularity' && !landing.sortReverse" class="fa fa-caret-down"></span>
-              <span ng-show="landing.sortType == 'popularity' && landing.sortReverse" class="fa fa-caret-up"></span>
+              <span ng-show="landing.sortType == 'popularity' && !landing.sortReverse" class="smooth fa fa-arrow-down"></span>
+              <span ng-show="landing.sortType == 'popularity' && landing.sortReverse" class="smooth fa fa-arrow-up"></span>
             </a>
           </td>
         </tr>
       </thead>
 
       <tbody ng-init="tooltip=false">
-        <tr ng-mouseenter="showButton = true" ng-mouseleave="showButton = false" class="row no-overflow" dir-paginate="song in landing.songs | orderBy:landing.sortType:landing.sortReverse | filter:landing.songSearch | itemsPerPage:10">
+        <tr ng-mouseenter="showButton = true" ng-mouseleave="showButton = false" class="row no-overflow" dir-paginate="song in landing.songs | orderBy:landing.sortType:landing.sortReverse | filter:landing.filter | itemsPerPage:10">
           <td class="text-right">
             <a href="" title="preview" data-toggle="tooltip" data-placement="left" tooltip ng-if="showButton" ng-show="landing.isPlaying != song.index" ng-click="landing.play(song.preview, song.index)">
               <img src="images/play1.png">
@@ -128,5 +135,92 @@
       boundary-links="true"></dir-pagination-controls>
     </div>
   </div>
+
+  <!-- ARTIST -->
+  <div id="artist-grid" ng-show="landing.searchType == 'artist'">
+    <div class="row text-left sort">
+      <div>Sort by:</div>
+      <div>
+        <a href="" ng-click="landing.sortType = 'followers'; landing.sortReverse = !landing.sortReverse">
+          Name
+          <span ng-show="landing.sortType == 'followers' && !landing.sortReverse" class="smooth fa fa-arrow-down"></span>
+          <span ng-show="landing.sortType == 'followers' && landing.sortReverse" class="smooth fa fa-arrow-up"></span>
+        </a>
+      </div>
+      <div>
+        <a href="" ng-click="landing.sortType = 'popularity'; landing.sortReverse = !landing.sortReverse">
+          Type
+          <span ng-show="landing.sortType == 'popularity' && !landing.sortReverse" class="smooth fa fa-arrow-down"></span>
+          <span ng-show="landing.sortType == 'popularity' && landing.sortReverse" class="smooth fa fa-arrow-up"></span>
+        </a>
+      </div>
+    </div>
+
+<div class="row container-fluid text-center">
+  <div class="col-md-4 text-center artist-card" dir-paginate="artist in landing.artists | orderBy:landing.sortType:landing.sortReverse | filter:landing.filter | itemsPerPage:6">
+
+    <div class="artist-cover vcenter">
+      <div class="artist-text">
+        <div>
+          <span ng-repeat="genre in artist.genres | limitTo:4">{{genre}}<span>,</span> &nbsp;</span>
+        </div>
+        <br><br><br>
+        <div>
+          Followers: {{artist.followers}}
+          <br>
+          Popularity: {{artist.popularity}}%
+        </div>
+      </div>
+    </div>
+    <div>
+      <img class="img-circle" ng-src="{{artist.logo}}" height="250px" width="250px">
+    </div>
+    <div class="artist-name">
+      {{artist.artist}}
+    </div>
+  </div>
+</div>
+
+<div class="text-center">
+  <dir-pagination-controls
+  max-size=""
+  direction-links="true"
+  boundary-links="true"></dir-pagination-controls>
+</div>
+
+</div>
+
+<!-- ALBUM -->
+<div id="album-grid" ng-show="landing.searchType == 'album'">
+  <div class="row container-fluid text-center">
+    <div class="col-md-3 text-center album-card" dir-paginate="album in landing.albums | orderBy:landing.sortType:landing.sortReverse | filter:landing.filter | itemsPerPage:12">
+
+      <div class="album-cover vcenter">
+        <div class="album-text">
+          <div>
+            Album Type: {{album.type}}
+          </div>
+          <div>
+            Artists: <span ng-repeat="artist in album.artist">{{artist.name}}<span>,</span> &nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <img ng-src="{{album.logo}}" height="180" width="160">
+      </div>
+      <div class="album-name">
+        {{album.name}}
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <dir-pagination-controls
+    max-size=""
+    direction-links="true"
+    boundary-links="true"></dir-pagination-controls>
+  </div>
+
+</div>
 
 </section>
